@@ -256,7 +256,8 @@ class LDAP(dict):
         config = self.get('group_search', None)
         if not config:
             return dict(status="ok")
-        groups = self._search(conn, config, username=username, userdn=userdn)
+        useruid = self._search(conn, {'base': self['user_search']['base'], 'filter': self['user_search']['filter'], 'attribute_name': 'uid'}, username=username)[0]
+        groups = self._search(conn, config, username=username, userdn=userdn, useruid=useruid)
         return dict(status="ok", groups=groups)
 
 
