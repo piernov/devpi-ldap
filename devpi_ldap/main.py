@@ -174,7 +174,7 @@ class LDAP(dict):
         attribute_name = config['attribute_name']
         found = conn.search(
             config['base'], search_filter,
-            search_scope=search_scope, attributes=[attribute_name])
+            search_scope=search_scope, attributes=[attribute_name] if attribute_name not in ('dn', 'distringuishedName') else [])
         if found:
             if any(attribute_name in x.get('attributes', {}) for x in conn.response):
                 def extract_search(s):
